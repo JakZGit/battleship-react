@@ -15,12 +15,28 @@ code {
     monospace;
 }
 
-.game {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-  /*height: 100vh;*/
+@media screen and (max-width:960px) {
+  .game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .board, .message, .legend {
+    margin: 5px;
+  }
+}
+
+@media screen and (min-width:960px) {
+  .game {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    /*min-width: 1000px;*/
+    /*height: 100vh;*/
+  }
 }
 
 .board {
@@ -28,14 +44,12 @@ code {
 }
 
 .message {
-  border: solid black 1px;
   min-width: 330px;
   height: 300px;
 }
 
-.legend {
-  border: solid black 1px;
-  min-width: 200px;
+.border {
+   border: solid black 1px;
 }
 
 .board-row:after {

@@ -113,7 +113,7 @@ export default class Game extends Component {
 		  				{this.renderRow(24)}
 		  				{this.renderRow(30)}
 				  	</div>
-				  	<div className='message'>
+				  	<div className='message border'>
 				  		<h2>Console</h2>
 				  		{this.state.messages}
 			  		</div>
