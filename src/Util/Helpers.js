@@ -26,7 +26,7 @@ export default {
 
 	placeShips(pos, shipMap, shipSize, dim, dir, arr) {
 		let increment = (dir === 1) ? dim : 1;
-		let currentHash = shipMap[0]++;
+		let currentHash = ++shipMap[0];
 		let counter = 0;
 		for(let i = pos - 1; counter < shipSize; i+=increment) {
 			arr[i] = currentHash;

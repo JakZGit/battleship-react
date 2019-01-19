@@ -21,7 +21,7 @@ export default class Game extends Component {
   	let r = util.getRandom(1,36);
   	let ship = 1;
   	const shipArray = this.state.shipArray.slice();
-    	const shipMap = {0 : 1};
+    	const shipMap = {0 : 0};
 
   	while(ship <= NUMBER_OF_SHIPS) {
   	    let direction = util.getRandom(0,1);
@@ -52,8 +52,8 @@ export default class Game extends Component {
   		messages.push(<p>You've successful destroyed the {shipMap[squares[i]].name}</p>);
   		shipMap[0]--;
   	}
-  	if(this.state.turns === 1 || shipMap[0] === 1) {
-  		let result = shipMap[0] === 1 ? 1 : 0;
+  	if(this.state.turns === 1 || shipMap[0] === 0) {
+  		let result = shipMap[0] === 0 ? 1 : 0;
   		this.resolveGame(result);
   	} else {
   		this.setState((prevState,props) => {
