@@ -10,29 +10,16 @@ export default class Game extends Component {
     super(props);
     this.state = {
       squares: Array(36).fill(null),
-      shipArray: Array(36).fill(null),
+      shipArray: null,
       shipMap: null,
-      turns: 30,
+      turns: 0,
       messages: []
     };
+    this.configureGame = this.configureGame.bind(this);
   }
 
   componentDidMount() {
-  	let r = util.getRandom(1,36);
-  	let ship = 1;
-  	const shipArray = this.state.shipArray.slice();
-    	const shipMap = {0 : 0};
-
-  	while(ship <= NUMBER_OF_SHIPS) {
-  	    let direction = util.getRandom(0,1);
-  	    while(!util.validate(r,direction,shipArray,6,ship)) {
-  	        direction = util.getRandom(0,1);
-  	        r = util.getRandom(1,36);
-  	    }
-  	    util.placeShips(r,shipMap,ship,6,direction,shipArray);
-  	    ship++;
-  	}
-  	this.setState({loading: false, shipArray: shipArray, shipMap: shipMap});
+  	this.configureGame();
   }
 
   handleClick(i) {
@@ -83,6 +70,24 @@ export default class Game extends Component {
 	  	})
   }
 
+  configureGame() {
+  	let r = util.getRandom(1,36);
+  	let ship = 1;
+  	const shipArray = Array(36).fill(null);
+    const shipMap = {0 : 0};
+  	while(ship <= NUMBER_OF_SHIPS) {
+  	    let direction = util.getRandom(0,1);
+  	    while(!util.validate(r,direction,shipArray,6,ship)) {
+  	        direction = util.getRandom(0,1);
+  	        r = util.getRandom(1,36);
+  	    }
+  	    util.placeShips(r,shipMap,ship,6,direction,shipArray);
+  	    ship++;
+  	}
+  	this.setState({shipArray: shipArray, squares: Array(36).fill(null),
+  							 	shipMap: shipMap, messages: [], turns: 30});
+  }
+
   renderSquare(i) {
   	return (
   		<Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />
@@ -102,7 +107,7 @@ export default class Game extends Component {
   render() {
 	  	return (
 	  		<div>
-		  		<h1>Moves remaining: {this.state.turns}</h1>
+		  		<h1>Moves remaining: {this.state.turns}</h1><button onClick={this.configureGame}>Reset</button>
 		  		<div className='game'>
 		  			<Legend />
 		  			<div className='board'>
