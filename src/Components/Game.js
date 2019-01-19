@@ -90,7 +90,7 @@ export default class Game extends Component {
 
   renderSquare(i) {
   	return (
-  		<Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />
+  		<Square key={i} value={this.state.squares[i]} onClick={() => this.handleClick(i)} />
   	)
   }
 
