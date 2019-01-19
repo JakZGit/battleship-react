@@ -49,7 +49,7 @@ export default class Game extends Component {
   	}
   	const messages = this.state.messages.slice();
   	if(squares[i] !== null && squares[i] !== 'X' && shipMap[squares[i]].lives === 0) {
-  		messages.push(<p>You've successful destroyed the {shipMap[squares[i]].name}</p>);
+  		messages.push(<p>You have successful destroyed the {shipMap[squares[i]].name}!</p>);
   		shipMap[0]--;
   	}
   	if(this.state.turns === 1 || shipMap[0] === 0) {
