@@ -26,18 +26,19 @@ export default class Game extends Component {
   	const squares = this.state.squares.slice(); //copy state
   	const shipArray = this.state.shipArray.slice();
   	const shipMap = Object.assign({}, this.state.shipMap);
+  	const messages = this.state.messages.slice();
   	if(squares[i] !== null) return;
   	if(shipArray[i] !== null) {
   		squares[i] = shipArray[i];
   		shipMap[shipArray[i]].lives--;
+  		if(shipMap[shipArray[i]].lives === 0) {
+  			messages.push(<p>You have successful destroyed the {shipMap[squares[i]].name}!</p>);
+  			this.setState({messages: messages});
+  			shipMap[0]--;
+  		}
   		shipArray[i] = null;
   	} else {
   		squares[i] = 'X';
-  	}
-  	const messages = this.state.messages.slice();
-  	if(squares[i] !== null && squares[i] !== 'X' && shipMap[squares[i]].lives === 0) {
-  		messages.push(<p>You have successful destroyed the {shipMap[squares[i]].name}!</p>);
-  		shipMap[0]--;
   	}
   	if(this.state.turns === 1 || shipMap[0] === 0) {
   		let result = shipMap[0] === 0 ? 1 : 0;
@@ -62,11 +63,10 @@ export default class Game extends Component {
 	  		}
   		}
   	}
-  	const messages = this.state.messages.slice();
   	let text = val ? <p>Game over! You won!</p> : <p>Game over! You lose!</p>
-  	messages.push(text);
   	this.setState((prevState,props) => {
-	  		return {turns: prevState.turns - 1, squares: squares, shipArray: shipArray, messages: messages};
+	  		return {turns: prevState.turns - 1, squares: squares, shipArray: shipArray,
+	  			messages: [...prevState.messages, text]};
 	  	})
   }
 
@@ -85,7 +85,7 @@ export default class Game extends Component {
   	    ship++;
   	}
   	this.setState({shipArray: shipArray, squares: Array(36).fill(null),
-  							 	shipMap: shipMap, messages: [], turns: 30});
+  							 	shipMap: shipMap, messages: [], turns: 36});
   }
 
   renderSquare(i) {
