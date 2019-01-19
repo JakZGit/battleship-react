@@ -1,5 +1,5 @@
-import Ship from '../Ship';
-let names = {
+import Ship from './Ship';
+const SHIP_NAMES = {
 	1: 'Falcon',
 	2: 'Marco',
 	3: 'Tank',
@@ -32,7 +32,7 @@ export default {
 			arr[i] = currentHash;
 			counter++;
 		}
-		let ship = new Ship(shipSize, shipSize, names[shipSize]);
+		let ship = new Ship(shipSize, shipSize, SHIP_NAMES[shipSize]);
 		shipMap[currentHash] = ship;
 	}
 }
