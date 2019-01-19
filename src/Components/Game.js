@@ -85,7 +85,7 @@ export default class Game extends Component {
   	    ship++;
   	}
   	this.setState({shipArray: shipArray, squares: Array(36).fill(null),
-  							 	shipMap: shipMap, messages: [], turns: 36});
+  							 	shipMap: shipMap, messages: [], turns: 30});
   }
 
   renderSquare(i) {
