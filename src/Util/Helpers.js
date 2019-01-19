@@ -1,4 +1,11 @@
 import Ship from '../Ship';
+let names = {
+	1: 'Falcon',
+	2: 'Marco',
+	3: 'Tank',
+	4: 'Aerial',
+	5: 'Bomb'
+}
 export default {
 	getRandom(min,max){
 		return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -25,7 +32,7 @@ export default {
 			arr[i] = currentHash;
 			counter++;
 		}
-		let ship = new Ship(shipSize, shipSize, "Falcon");
+		let ship = new Ship(shipSize, shipSize, names[shipSize]);
 		shipMap[currentHash] = ship;
 	}
 }
