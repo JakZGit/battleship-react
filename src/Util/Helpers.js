@@ -28,11 +28,13 @@ export default {
 		let increment = (dir === 1) ? dim : 1;
 		let currentHash = ++shipMap[0];
 		let counter = 0;
+		let location = [];
 		for(let i = pos - 1; counter < shipSize; i+=increment) {
 			arr[i] = currentHash;
+			location.push(i);
 			counter++;
 		}
-		let ship = new Ship(shipSize, shipSize, SHIP_NAMES[shipSize]);
+		let ship = new Ship(shipSize, shipSize, SHIP_NAMES[shipSize],location);
 		shipMap[currentHash] = ship;
 	}
 }

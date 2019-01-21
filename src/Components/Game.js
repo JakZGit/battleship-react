@@ -4,12 +4,14 @@ import Legend from './Legend';
 import util from '../Util/Helpers';
 
 const NUMBER_OF_SHIPS = 5;
+const BOARD_DIMENSIONS = 6;
+let MESSAGE_KEY = 0;
 
 export default class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      squares: Array(36).fill(null),
+      squares: Array(BOARD_DIMENSIONS * BOARD_DIMENSIONS).fill(null),
       shipArray: null,
       shipMap: null,
       turns: 0,
@@ -24,25 +26,25 @@ export default class Game extends Component {
 
   handleClick(i) {
   	const squares = this.state.squares.slice(); //copy state
+  	if(squares[i] !== null) return;
   	const shipArray = this.state.shipArray.slice();
   	const shipMap = Object.assign({}, this.state.shipMap);
   	const messages = this.state.messages.slice();
-  	if(squares[i] !== null) return;
   	if(shipArray[i] !== null) {
-  		squares[i] = shipArray[i];
   		shipMap[shipArray[i]].lives--;
+  		squares[i] = 'O';
   		if(shipMap[shipArray[i]].lives === 0) {
-  			messages.push(<p>You have successful destroyed the {shipMap[squares[i]].name}!</p>);
+  			this.revealShip(squares, shipMap[shipArray[i]], shipArray);
+  			messages.push(<p key={MESSAGE_KEY++}>You have successful destroyed the {shipMap[squares[i]].name}!</p>);
   			this.setState({messages: messages});
   			shipMap[0]--;
   		}
-  		shipArray[i] = null;
   	} else {
   		squares[i] = 'X';
   	}
   	if(this.state.turns === 1 || shipMap[0] === 0) {
   		let result = shipMap[0] === 0 ? 1 : 0;
-  		this.resolveGame(result);
+  		this.resolveGame(result,squares,shipArray);
   	} else {
   		this.setState((prevState,props) => {
 	  		return {turns: prevState.turns - 1, squares: squares,
@@ -51,11 +53,16 @@ export default class Game extends Component {
   	}
   }
 
-  resolveGame(val) {
-  	const squares = this.state.squares.slice(); //copy state
-  	const shipArray = this.state.shipArray.slice();
+  revealShip(squares, ship, shipArray) {
+  	for(let i = 0; i < ship.location.length; i++) {
+  		squares[ship.location[i]] = shipArray[ship.location[i]];
+  		shipArray[ship.location[i]] = null;
+  	}
+  }
+
+  resolveGame(val,squares, shipArray) {
   	for(let i = 0; i < shipArray.length; i++) {
-  		if(squares[i] === null) {
+  		if(squares[i] === null || squares[i] === 'O') {
   			if(shipArray[i] === null) squares[i] = 'X';
 	  		else {
 	  			squares[i] = shipArray[i];
@@ -63,7 +70,7 @@ export default class Game extends Component {
 	  		}
   		}
   	}
-  	let text = val ? <p>Game over! You won!</p> : <p>Game over! You lose!</p>
+  	let text = val ? <p key={MESSAGE_KEY++}>Game over! You won!</p> : <p key={MESSAGE_KEY++}>Game over! You lose!</p>
   	this.setState((prevState,props) => {
 	  		return {turns: prevState.turns - 1, squares: squares, shipArray: shipArray,
 	  			messages: [...prevState.messages, text]};
@@ -71,20 +78,21 @@ export default class Game extends Component {
   }
 
   configureGame() {
-  	let r = util.getRandom(1,36);
+  	let totalSquares = BOARD_DIMENSIONS * BOARD_DIMENSIONS;
+  	let r = util.getRandom(1,totalSquares);
   	let ship = 1;
-  	const shipArray = Array(36).fill(null);
+  	const shipArray = Array(totalSquares).fill(null);
     const shipMap = {0 : 0};
   	while(ship <= NUMBER_OF_SHIPS) {
   	    let direction = util.getRandom(0,1);
-  	    while(!util.validate(r,direction,shipArray,6,ship)) {
+  	    while(!util.validate(r,direction,shipArray,BOARD_DIMENSIONS,ship)) {
   	        direction = util.getRandom(0,1);
-  	        r = util.getRandom(1,36);
+  	        r = util.getRandom(1,totalSquares);
   	    }
-  	    util.placeShips(r,shipMap,ship,6,direction,shipArray);
+  	    util.placeShips(r,shipMap,ship,BOARD_DIMENSIONS,direction,shipArray);
   	    ship++;
   	}
-  	this.setState({shipArray: shipArray, squares: Array(36).fill(null),
+  	this.setState({shipArray: shipArray, squares: Array(totalSquares).fill(null),
   							 	shipMap: shipMap, messages: [], turns: 30});
   }
 
@@ -96,29 +104,34 @@ export default class Game extends Component {
 
   renderRow(i) {
   	let row = [];
-  	for(let index = i; index < i + 6; index++) {
+  	for(let index = i; index < i + BOARD_DIMENSIONS; index++) {
   		row.push(this.renderSquare(index));
   	}
   	return (
-  		<div className='board-row'>{row}</div>
+  		<div key={i} className='board-row'>{row}</div>
   		)
+  }
+
+  renderBoard() {
+  	let board = [];
+  	let start = 0;
+  	for(let i = 0; i < BOARD_DIMENSIONS; i++) {
+  		board.push(this.renderRow(start));
+  		start+=BOARD_DIMENSIONS;
+  	}
+  	return board;
   }
 
   render() {
 	  	return (
 	  		<div>
 		  		<h1>Moves remaining: {this.state.turns}</h1><button onClick={this.configureGame}>Reset</button>
-		  		<div className='game'>
+		  		<div className='game flex-item'>
 		  			<Legend />
-		  			<div className='board'>
-		  				{this.renderRow(0)}
-		  				{this.renderRow(6)}
-		  				{this.renderRow(12)}
-		  				{this.renderRow(18)}
-		  				{this.renderRow(24)}
-		  				{this.renderRow(30)}
+		  			<div className='board flex-item'>
+		  				{this.renderBoard()}
 				  	</div>
-				  	<div className='message border'>
+				  	<div className='message border flex-item'>
 				  		<h2>Console</h2>
 				  		{this.state.messages}
 			  		</div>
