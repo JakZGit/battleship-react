@@ -33,12 +33,11 @@ code {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-evenly;
-    /*min-width: 1000px;*/
+    justify-content: center;
     /*height: 100vh;*/
   }
   .board, .message, .legend {
-    margin: auto;
+    margin: 10px;
   }
 }
 
