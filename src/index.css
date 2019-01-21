@@ -42,10 +42,6 @@ code {
   }
 }
 
-.board {
-  min-width: 300px;
-}
-
 .message {
   min-width: 330px;
   height: 300px;

@@ -112,7 +112,7 @@ export default class Game extends Component {
   		)
   }
 
-  renderBoard() {
+  renderBoard(BOARD_DIMENSIONS) {
   	let board = [];
   	let start = 0;
   	for(let i = 0; i < BOARD_DIMENSIONS; i++) {
@@ -129,7 +129,7 @@ export default class Game extends Component {
 		  		<div className='game flex-item'>
 		  			<Legend />
 		  			<div className='board flex-item'>
-		  				{this.renderBoard()}
+		  				{this.renderBoard(BOARD_DIMENSIONS)}
 				  	</div>
 				  	<div className='message border flex-item'>
 				  		<h2>Console</h2>
