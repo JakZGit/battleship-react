@@ -47,8 +47,7 @@ export default class Game extends Component {
   		this.resolveGame(result,squares,shipArray);
   	} else {
   		this.setState((prevState,props) => {
-	  		return {turns: prevState.turns - 1, squares: squares,
-	  			shipArray: shipArray, shipMap: shipMap, messages: messages};
+	  		return {turns: prevState.turns - 1, squares: squares, shipArray: shipArray, shipMap: shipMap};
 	  	})
   	}
   }
