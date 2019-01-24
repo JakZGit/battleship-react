@@ -9,23 +9,23 @@ export default function Legend(props) {
 					    <th>Ship Code</th>
 					</tr>
 					<tr>
-						<th>Falcon</th>
+						<th>Carrier</th>
 					    <th>1</th>
 				  	</tr>
 				  	<tr>
-						<th>Marco</th>
+						<th>Battleship</th>
 					    <th>2</th>
 					</tr>
 					<tr>
-						<th>Tank</th>
+						<th>Destroyer</th>
 					    <th>3</th>
 					</tr>
 					<tr>
-						<th>Aerial</th>
+						<th>Submarine</th>
 					    <th>4</th>
 					</tr>
 					<tr>
-						<th>Bomb</th>
+						<th>Patrol Boat</th>
 					    <th>5</th>
 					</tr>
 			  </tbody>

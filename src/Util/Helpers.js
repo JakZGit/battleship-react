@@ -1,10 +1,10 @@
 import Ship from './Ship';
 const SHIP_NAMES = {
-	1: 'Falcon',
-	2: 'Marco',
-	3: 'Tank',
-	4: 'Aerial',
-	5: 'Bomb'
+	1: 'Carrier',
+	2: 'Battleship',
+	3: 'Destroyer',
+	4: 'Submarine',
+	5: 'Patrol Boat'
 }
 export default {
 	getRandom(min,max){
